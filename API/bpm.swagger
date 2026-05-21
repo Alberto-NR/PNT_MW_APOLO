@@ -1,0 +1,398 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: "BC Rest resource"
+host: "10.209.23.55:5555"
+basePath: "/rad/BC_SRV_Transversales.api.provider:bpm"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /v1/completeTask/execute:
+    patch:
+      operationId: "v1completeTaskexecute_PATCH_1"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/request"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/v1completeTaskexecute_PATCH_response"
+        "401":
+          description: "Access Denied"
+  /v1/task/retrieve:
+    post:
+      operationId: "v1taskretrieve_POST_2"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/request_1"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/v1taskretrieve_POST_response"
+        "401":
+          description: "Access Denied"
+  /v1/resubmitTask/execute:
+    patch:
+      operationId: "v1resubmitTaskexecute_PATCH_3"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/request_2"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/v1resubmitTaskexecute_PATCH_response"
+        "401":
+          description: "Access Denied"
+  /v1/instance/initiate:
+    post:
+      operationId: "v1instanceinitiate_POST_4"
+      parameters:
+      - name: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "identity-session-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "sessionId"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "consumerRequestId"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "bodyParameters"
+        required: true
+        schema:
+          $ref: "#/definitions/v1instanceinitiate_POST_bodyParameters"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/v1instanceinitiate_POST_response"
+        "401":
+          description: "Access Denied"
+definitions:
+  productInstanceRecord:
+    type: "object"
+    required:
+    - "productInstanceNextReferenceName"
+    - "productInstanceReference"
+    - "productInstanceReferenceName"
+    - "productInstanceSequenceNumber"
+    properties:
+      productInstanceReference:
+        type: "string"
+      productInstanceReferenceName:
+        type: "string"
+      productInstanceSequenceNumber:
+        type: "integer"
+        format: "int64"
+      productInstanceNextReferenceName:
+        type: "string"
+  v1completeTaskexecute_PATCH_response:
+    type: "object"
+    required:
+    - "message"
+    - "status"
+    - "statusCode"
+    properties:
+      statusCode:
+        type: "string"
+      message:
+        type: "string"
+      status:
+        type: "string"
+  TaskInfo:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      expireDate:
+        type: "string"
+        format: "date-time"
+      createdDate:
+        type: "string"
+        format: "date-time"
+      lastModifiedDate:
+        type: "string"
+        format: "date-time"
+      lastAcceptedDate:
+        type: "string"
+        format: "date-time"
+      taskID:
+        type: "string"
+      customTaskID:
+        type: "string"
+      createdBy:
+        type: "string"
+      lastModifiedBy:
+        type: "string"
+      lastAcceptedBy:
+        type: "string"
+      status:
+        type: "string"
+      priority:
+        type: "string"
+      acceptedByList:
+        type: "array"
+        items:
+          type: "string"
+      assignedToList:
+        type: "array"
+        items:
+          type: "string"
+      errorCode:
+        type: "string"
+      errorMessage:
+        type: "string"
+      taskUrl:
+        type: "string"
+      taskTypeID:
+        type: "string"
+      taskVersionNumber:
+        type: "integer"
+        format: "int32"
+      processInstanceID:
+        type: "string"
+      rootProcessInstanceID:
+        type: "string"
+      processModelID:
+        type: "string"
+      processModelVersion:
+        type: "string"
+      stepID:
+        type: "string"
+      processIteration:
+        type: "string"
+      stepIteration:
+        type: "string"
+      auditContext:
+        type: "string"
+      parentTaskID:
+        type: "string"
+      collaborationProcessID:
+        type: "string"
+      collaborationStepID:
+        type: "string"
+      delegatedToList:
+        type: "array"
+        items:
+          type: "string"
+      delegatedFromList:
+        type: "array"
+        items:
+          type: "string"
+      isMandatory:
+        type: "integer"
+        format: "int32"
+      taskScheduleDate:
+        type: "string"
+        format: "date-time"
+  dt_registerEndorsement:
+    type: "object"
+    properties:
+      sessionDialogueIdentification:
+        type: "string"
+      endorsementManagement:
+        type: "array"
+        items:
+          $ref: "#/definitions/endorsementManagement"
+    description: "endorsement"
+  v1instanceinitiate_POST_bodyParameters:
+    type: "object"
+    required:
+    - "endorsement"
+    - "partyReference"
+    - "productInstanceRecord"
+    properties:
+      partyRelationshipProcedure:
+        $ref: "#/definitions/partyRelationshipProcedure"
+      endorsement:
+        $ref: "#/definitions/dt_registerEndorsement"
+      partyReference:
+        $ref: "#/definitions/dt_evaluateOnboardingPhoneParty"
+      productInstanceRecord:
+        $ref: "#/definitions/productInstanceRecord"
+  dt_evaluateOnboardingPhoneParty:
+    type: "object"
+    properties:
+      contactPoint:
+        type: "array"
+        items:
+          $ref: "#/definitions/contactPoint"
+    description: "customerContactSessionProcedure"
+  resubmitTask:
+    type: "object"
+    required:
+    - "processInstanceId"
+    - "stepId"
+    - "stepName"
+    properties:
+      stepName:
+        type: "string"
+      stepId:
+        type: "string"
+      processInstanceId:
+        type: "string"
+  taskData:
+    type: "object"
+  docType_SearchTaskByParamResponse:
+    type: "object"
+    required:
+    - "TaskData"
+    - "TaskInfo"
+    properties:
+      TaskInfo:
+        $ref: "#/definitions/TaskInfo"
+      TaskData:
+        type: "string"
+        format: "binary"
+  partyReference:
+    type: "object"
+    properties:
+      contactPoint:
+        type: "array"
+        items:
+          $ref: "#/definitions/contactPoint_1"
+  request_2:
+    type: "object"
+    required:
+    - "resubmitTask"
+    - "taskData"
+    properties:
+      resubmitTask:
+        $ref: "#/definitions/resubmitTask"
+      taskData:
+        $ref: "#/definitions/taskData_1"
+  contactPoint_1:
+    type: "object"
+    properties:
+      contactPointValue:
+        type: "string"
+      contactPointActiveStatus:
+        type: "boolean"
+      registrationDate:
+        type: "string"
+      contactPointType:
+        type: "string"
+  request_1:
+    type: "object"
+    properties:
+      processInstanceID:
+        type: "string"
+      customID:
+        type: "string"
+      taskID:
+        type: "string"
+  v1instanceinitiate_POST_response:
+    type: "object"
+    required:
+    - "message"
+    - "status"
+    - "statusCode"
+    properties:
+      statusCode:
+        type: "string"
+      message:
+        type: "string"
+      status:
+        type: "string"
+  v1taskretrieve_POST_response:
+    type: "object"
+    required:
+    - "message"
+    - "searchTaskByParam"
+    - "status"
+    - "statusCode"
+    properties:
+      searchTaskByParam:
+        $ref: "#/definitions/docType_SearchTaskByParamResponse"
+      statusCode:
+        type: "string"
+      message:
+        type: "string"
+      status:
+        type: "string"
+  endorsementManagement:
+    type: "object"
+    properties:
+      endorsementType:
+        type: "integer"
+        format: "int32"
+      endorsementStatus:
+        type: "string"
+      endorsementDateTime:
+        type: "string"
+  request:
+    type: "object"
+    properties:
+      processInstanceID:
+        type: "string"
+      taskID:
+        type: "string"
+      customID:
+        type: "string"
+      stopInstance:
+        type: "boolean"
+      completeTask:
+        type: "boolean"
+      taskData:
+        $ref: "#/definitions/taskData"
+  v1resubmitTaskexecute_PATCH_response:
+    type: "object"
+    required:
+    - "message"
+    - "status"
+    - "statusCode"
+    properties:
+      statusCode:
+        type: "string"
+      message:
+        type: "string"
+      status:
+        type: "string"
+  taskData_1:
+    type: "object"
+  contactPoint:
+    type: "object"
+    properties:
+      contactPointValue:
+        type: "string"
+      contactPointType:
+        type: "string"
+  partyRelationshipProcedure:
+    type: "object"
+    properties:
+      partyReference:
+        $ref: "#/definitions/partyReference"
